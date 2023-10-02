@@ -1,6 +1,6 @@
 import java.util.NoSuchElementException;
 import java.util.Stack;
-public class BST<E extends Comparable<? super E>> implements Iterator<E> {
+public class BST<E extends Comparable<? super E>> {
     private Node<E> root; //root of BST
     private int nodecount; //number of nodes in BST
 
@@ -41,11 +41,11 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
     // Implement the search method
     private E findhelp(Node<E> rt, E key) {
         if (rt == null) return null;
-        if (rt.value().compareTo(key) > 0)
-            return findhelp(rt.left(), key);
-        else if (rt.value().compareTo(key) == 0)
-            return rt.value();
-        else return findhelp(rt.right(), key);
+        if (rt.getElement().compareTo(key) > 0)
+            return findhelp(rt.getLeft(), key);
+        else if (rt.getElement().compareTo(key) == 0)
+            return rt.getElement();
+        else return findhelp(rt.getRight(), key);
     }
 
     public E find(E key) {
@@ -56,10 +56,10 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
     //insert help method
     private Node<E> inserthelp(Node<E> rt, E key) {
         if (rt == null) return new Node<E>(key);
-        if (rt.value().compareTo(key) > 0) {
-            rt.setLeft(inserthelp(rt.left(), key));
+        if (rt.getElement().compareTo(key) > 0) {
+            rt.setLeft(inserthelp(rt.getLeft(), key));
         } else {
-            rt.setRight(inserthelp(rt.right(), key));
+            rt.setRight(inserthelp(rt.getRight(), key));
         }
         return rt;
     }
@@ -67,35 +67,35 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
     // remove help method
     private Node<E> removehelp(Node<E> rt, E key) {
         if (rt == null) return null;
-        if (rt.value().compareTo(key) > 0) {
-            rt.setLeft(removehelp(rt.left(), key));
-        } else if (rt.value().compareTo(key) < 0) {
-            rt.setRight(removehelp(rt.right(), key));
+        if (rt.getElement().compareTo(key) > 0) {
+            rt.setLeft(removehelp(rt.getLeft(), key));
+        } else if (rt.getElement().compareTo(key) < 0) {
+            rt.setRight(removehelp(rt.getRight(), key));
         } else {
-            if (rt.left() == null) {
-                return rt.right();
-            } else if (rt.right() == null) {
-                return rt.left();
+            if (rt.getLeft() == null) {
+                return rt.getRight();
+            } else if (rt.getRight() == null) {
+                return rt.getLeft();
             } else {
-                Node<E> temp = getMax(rt.left());
-                rt.setValue(temp.value());
-                rt.setLeft(deleteMax(rt.left()));
+                Node<E> temp = getMax(rt.getLeft());
+                rt.setValue(temp.getElement());
+                rt.setLeft(deleteMax(rt.getLeft()));
             }
         }
         return rt;
     }
 
     private Node<E> getMax(Node<E> rt) {
-        if (rt.right() == null) {
+        if (rt.getRight() == null) {
             return rt;
-        } else return getMax(rt.right());
+        } else return getMax(rt.getRight());
     }
 
     private Node<E> deleteMax(Node<E> rt) {
-        if (rt.right() == null) {
-            return rt.right();
+        if (rt.getRight() == null) {
+            return rt.getRight();
         } else {
-            rt.setRight(deleteMax(rt.right()));
+            rt.setRight(deleteMax(rt.getRight()));
             return rt;
         }
     }
@@ -119,7 +119,7 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
         public E next() {
             while (currentNode != null) {
                 stack.push(currentNode);
-                currentNode = currentNode.left();
+                currentNode = currentNode.getLeft();
             }
 
             if (!hasNext()) {
@@ -127,9 +127,9 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
             }
 
             Node<E> node = stack.pop();
-            currentNode = node.right();
+            currentNode = node.getRight();
 
-            return node.value();
+            return node.getElement();
         }
 
         public Iterator<E> iterator() {
