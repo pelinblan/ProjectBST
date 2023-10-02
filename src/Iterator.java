@@ -1,3 +1,4 @@
+
 public interface Iterator<E> {
     // Check if the stack has more elements to iterate over
     boolean hasNext();
@@ -6,17 +7,17 @@ public interface Iterator<E> {
     E next();
 
     // Push an element onto the stack
-    //void push(E element);
+    void push(E element);
 
     // Pop and return the top element from the stack
-   // E pop();
+    E pop();
 
     // Peek and return the top element from the stack without removing it
-    //E peek();
+    E peek();
 
     // Check if the stack is empty
-    //boolean isEmpty();
+    boolean isEmpty();
 
     // Return the size of the stack
-    //int size();
+    int size();
 }

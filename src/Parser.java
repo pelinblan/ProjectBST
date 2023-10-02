@@ -33,7 +33,7 @@ public class Parser<E extends Comparable<? super E>> {
             case "insert":
                 if (command.length == 2) {
                     try {
-                        E value = Integer.parseValue(command[1]); //integer
+                        int value = Integer.parseValue(command[1]); //integer
                         mybst.insert(value);
                     } catch (NumberFormatException e) {
                         writeToFile("Invalid Command: " + command[0], "./result.txt");

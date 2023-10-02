@@ -132,6 +132,25 @@ public class BST<E extends Comparable<? super E>> {
             return node.getElement();
         }
 
+        public void push(E element) {
+
+        }
+        public E pop() {
+            return null;
+        }
+
+        public E peek() {
+            return null;
+        }
+
+        public boolean isEmpty() {
+            return false;
+        }
+
+        public int size() {
+            return 0;
+        }
+
         public Iterator<E> iterator() {
             return new BSTIterator();
         }
