@@ -33,19 +33,20 @@ public class Parser<E extends Comparable<? super E>> {
             case "insert":
                 if (command.length == 2) {
                     try {
-                        int value = Integer.parseValue(command[1]); //integer
-                        mybst.insert(value);
+                        int value = Integer.parseInt(command[1]); //integer
+                        E element = (E) Integer.valueOf(value); // Create an object of type E with the integer value
+                        mybst.insert(element);
                     } catch (NumberFormatException e) {
                         writeToFile("Invalid Command: " + command[0], "./result.txt");
                     }
                 } else {
                     writeToFile("Invalid Command: " + command[0], "./result.txt");
                 }
-                break;
-            if (command.length == 2) {
+                if(command.length == 2) {
                 try {
-                    E value = parseValue(command[1]);
-                    E removedValue = mybst.remove(value);
+                    int value = Integer.parseInt(command[1]);
+                    E removedValue = (E)Integer.valueOf(value);
+                    mybst.remove(removedValue);
                     if (removedValue != null) {
                         writeToFile("Deleted: " + value, "./result.txt");
                     } else {
@@ -61,8 +62,9 @@ public class Parser<E extends Comparable<? super E>> {
             case "search":
                 if (command.length == 2) {
                     try {
-                        E value = parseValue(command[1]);
-                        if (mybst.find(value) != null) {
+                        int value = Integer.parseInt(command[1]);
+                        E searchVal = (E)Integer.valueOf(value);
+                        if (mybst.find(searchVal) != null) {
                             writeToFile("Found: " + value, "./result.txt");
                         } else {
                             writeToFile("Not found: " + value, "./result.txt");
@@ -72,8 +74,9 @@ public class Parser<E extends Comparable<? super E>> {
                     }
 
                 }
-                // default case for Invalid Command
-                default -> writeToFile("Invalid Command", "./result.txt");
+            default:
+                writeToFile("Invalid Command", "./result.txt");
+                break; // Added 'break' here for the default case
         }
     }
 
