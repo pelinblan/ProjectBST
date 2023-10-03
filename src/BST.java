@@ -101,13 +101,16 @@ public class BST<E extends Comparable<? super E>> {
     }
 
     // Implement the BSTIterator class -in order tree transversal
-    private class BSTIterator implements Iterator<E> {
+    private class BSTIterator implements Iterator<E>{
         private Node currentNode;
         private Stack<Node> stack;
 
         public BSTIterator() {
             currentNode = root;
             stack = new Stack<>();
+            if(currentNode != null){
+                stack = new Stack<>();
+            }
         }
 
         @Override
