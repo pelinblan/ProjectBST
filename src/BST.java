@@ -1,7 +1,7 @@
 import java.util.NoSuchElementException;
 import java.util.Stack;
-public class BST<E extends Comparable<? super E>> {
-    private Node<E> root; //root of BST
+public class BST<E extends Comparable<? super E>> implements Iterator<E> {
+    protected Node<E> root; //root of BST
     private int nodecount; //number of nodes in BST
 
     // Implement the constructor
@@ -98,6 +98,13 @@ public class BST<E extends Comparable<? super E>> {
             rt.setRight(deleteMax(rt.getRight()));
             return rt;
         }
+    }
+
+    public boolean hasNext() {
+        return false;
+    }
+    public E next() {
+        return null;
     }
 
     // Implement the BSTIterator class -in order tree transversal

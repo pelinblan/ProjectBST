@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Parser<E extends Comparable<? super E>> {
     //Create a BST tree of Integer type
-    private BST<Integer> mybst = new BST<Integer>();
+    private BST<Integer> mybst = new BST<>();
 
     public Parser(String filename) throws FileNotFoundException {
         process(new File(filename));
@@ -31,20 +31,21 @@ public class Parser<E extends Comparable<? super E>> {
             // add your cases here
             // call writeToFile
             case "print":
-            try {
-                FileWriter fileWriter = new FileWriter("./result.txt");
-                printInOrder(mybst.root, fileWriter);
-                fileWriter.close();
-                writeToFile("Printed BST elements to result.txt", "./result.txt");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                try {
+                    FileWriter fileWriter = new FileWriter("./result.txt");
+                    printInOrder((Node<E>)mybst.root, fileWriter);
+                    fileWriter.close();
+                    writeToFile("Printed BST elements to result.txt", "./result.txt");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+
             case "insert":
                 if (command.length == 2) {
                     try {
                         int value = Integer.parseInt(command[1]); //integer
-                        E element = (E)Integer.valueOf(value); // Create an object of type E with the integer value
-                        mybst.insert((Integer)element);
+                        mybst.insert(value);
                     } catch (NumberFormatException e) {
                         writeToFile("Invalid Command: " + command[0], "./result.txt");
                     }
@@ -56,9 +57,8 @@ public class Parser<E extends Comparable<? super E>> {
                 if(command.length == 2) {
                 try {
                     int value = Integer.parseInt(command[1]);
-                    E removedValue = (E)Integer.valueOf(value);
-                    mybst.remove((Integer)removedValue);
-                    if (removedValue != null) {
+                    mybst.remove(value);
+                    if (value != 0) {
                         writeToFile("Deleted: " + value, "./result.txt");
                     } else {
                         writeToFile("Value not found: " + value, "./result.txt");
@@ -74,8 +74,7 @@ public class Parser<E extends Comparable<? super E>> {
                 if (command.length == 2) {
                     try {
                         int value = Integer.parseInt(command[1]);
-                        E searchVal = (E)Integer.valueOf(value);
-                        if (mybst.find((Integer)searchVal) != null) {
+                        if (mybst.find(value) != null) {
                             writeToFile("Found: " + value, "./result.txt");
                         } else {
                             writeToFile("Not found: " + value, "./result.txt");
@@ -93,9 +92,13 @@ public class Parser<E extends Comparable<? super E>> {
 
     private void printInOrder(Node<E> node, FileWriter fileWriter) {
         if (node != null) {
-            printInOrder(node.getRight(), fileWriter);
-            fileWriter.write(node.getElement().toString() + "\n"); //
-            printInOrder(node.getRight(), fileWriter);
+            printInOrder(node.getLeft(), fileWriter); // Traverse left subtree
+            try {
+                fileWriter.write(node.getElement().toString() + "\n"); // Write the element to the file
+            } catch (IOException e) {
+                e.printStackTrace(); // Handle any IO exceptions
+            }
+            printInOrder(node.getRight(), fileWriter); // Traverse right subtree
         }
     }
 
