@@ -101,64 +101,77 @@ public class BST<E extends Comparable<? super E>> {
     }
 
     // Implement the BSTIterator class -in order tree transversal
-    private class BSTIterator implements Iterator<E>{
-        private Node currentNode;
-        private Stack<Node> stack;
+    private class BSTIterator implements Iterator<E> {
+        private Node<E> currentNode;
+        private Stack<Node<E>> nodeStack;
 
         public BSTIterator() {
-            currentNode = root;
-            stack = new Stack<>();
-            if(currentNode != null){
-                stack = new Stack<>();
+            if (root != null) {
+                nodeStack = new Stack<>(); //node<e>
+                goLeftFrom(root);
+            }
+        }
+
+        private void goLeftFrom(Node<E> t) {
+            while (t != null) {
+                nodeStack.push(t);
+                t = t.getLeft();
             }
         }
 
         @Override
         public boolean hasNext() {
-            return !stack.isEmpty() || currentNode != null;
+            return !nodeStack.isEmpty() || currentNode != null;
         }
 
         @Override
         public E next() {
-            while (currentNode != null) {
-                stack.push(currentNode);
-                currentNode = currentNode.getLeft();
+            if (!nodeStack.empty()) {
+                Node<E> current = nodeStack.peek();
+                nodeStack.pop();
+                if (current.getRight() != null) {
+                    goLeftFrom(currentNode.getRight());
+                }
             }
-
-            if (!hasNext()) {
-                throw new NoSuchElementException("No more elements in the BST");
-            }
-
-            Node<E> node = stack.pop();
-            currentNode = node.getRight();
-
-            return node.getElement();
+            return (currentNode.getElement());
+        }
+        public void inOrder () {
+            inOrderHelper(root);
+        }
+        private void inOrderHelper(Node<E> t) {
+            if (currentNode == null) return;
+            inOrderHelper(t.getLeft());
+            System.out.println(t.getElement());
+            inOrderHelper(t.getRight());
         }
 
+        @Override
         public void push(E element) {
 
         }
+
+        @Override
         public E pop() {
             return null;
         }
 
+        @Override
         public E peek() {
             return null;
         }
 
+        @Override
         public boolean isEmpty() {
             return false;
         }
 
+        @Override
         public int size() {
             return 0;
         }
-
-        public Iterator<E> iterator() {
-            return new BSTIterator();
-        }
     }
-}
+
+
 
 
 
