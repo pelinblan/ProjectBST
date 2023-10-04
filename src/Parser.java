@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Parser<E extends Comparable<? super E>> {
     //Create a BST tree of Integer type
-    private BST<E> mybst = new BST<E>();
+    private BST<Integer> mybst = new BST<Integer>();
 
     public Parser(String filename) throws FileNotFoundException {
         process(new File(filename));
@@ -30,23 +30,34 @@ public class Parser<E extends Comparable<? super E>> {
         switch (command[0]) {
             // add your cases here
             // call writeToFile
+            case "print":
+            try {
+                FileWriter fileWriter = new FileWriter("./result.txt");
+                printInOrder(mybst.root, fileWriter);
+                fileWriter.close();
+                writeToFile("Printed BST elements to result.txt", "./result.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             case "insert":
                 if (command.length == 2) {
                     try {
                         int value = Integer.parseInt(command[1]); //integer
-                        E element = (E) Integer.valueOf(value); // Create an object of type E with the integer value
-                        mybst.insert(element);
+                        E element = (E)Integer.valueOf(value); // Create an object of type E with the integer value
+                        mybst.insert((Integer)element);
                     } catch (NumberFormatException e) {
                         writeToFile("Invalid Command: " + command[0], "./result.txt");
                     }
                 } else {
                     writeToFile("Invalid Command: " + command[0], "./result.txt");
                 }
+            break;
+            case "remove":
                 if(command.length == 2) {
                 try {
                     int value = Integer.parseInt(command[1]);
                     E removedValue = (E)Integer.valueOf(value);
-                    mybst.remove(removedValue);
+                    mybst.remove((Integer)removedValue);
                     if (removedValue != null) {
                         writeToFile("Deleted: " + value, "./result.txt");
                     } else {
@@ -64,7 +75,7 @@ public class Parser<E extends Comparable<? super E>> {
                     try {
                         int value = Integer.parseInt(command[1]);
                         E searchVal = (E)Integer.valueOf(value);
-                        if (mybst.find(searchVal) != null) {
+                        if (mybst.find((Integer)searchVal) != null) {
                             writeToFile("Found: " + value, "./result.txt");
                         } else {
                             writeToFile("Not found: " + value, "./result.txt");
@@ -77,6 +88,14 @@ public class Parser<E extends Comparable<? super E>> {
             default:
                 writeToFile("Invalid Command", "./result.txt");
                 break; // Added 'break' here for the default case
+        }
+    }
+
+    private void printInOrder(Node<E> node, FileWriter fileWriter) {
+        if (node != null) {
+            printInOrder(node.getRight(), fileWriter);
+            fileWriter.write(node.getElement().toString() + "\n"); //
+            printInOrder(node.getRight(), fileWriter);
         }
     }
 

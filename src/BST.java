@@ -112,10 +112,10 @@ public class BST<E extends Comparable<? super E>> {
             }
         }
 
-        private void goLeftFrom(Node<E> t) {
-            while (t != null) {
-                nodeStack.push(t);
-                t = t.getLeft();
+        private void goLeftFrom(Node<E> node) {
+            while (node != null) {
+                nodeStack.push(node);
+                node = node.getLeft();
             }
         }
 
@@ -135,9 +135,11 @@ public class BST<E extends Comparable<? super E>> {
             }
             return (currentNode.getElement());
         }
-        public void inOrder () {
+
+        public void inOrder() {
             inOrderHelper(root);
         }
+
         private void inOrderHelper(Node<E> t) {
             if (currentNode == null) return;
             inOrderHelper(t.getLeft());
@@ -145,31 +147,8 @@ public class BST<E extends Comparable<? super E>> {
             inOrderHelper(t.getRight());
         }
 
-        @Override
-        public void push(E element) {
-
-        }
-
-        @Override
-        public E pop() {
-            return null;
-        }
-
-        @Override
-        public E peek() {
-            return null;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public int size() {
-            return 0;
-        }
     }
+}
 
 
 
