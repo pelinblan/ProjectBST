@@ -1,6 +1,7 @@
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Stack;
-public class BST<E extends Comparable<? super E>> implements Iterator<E> {
+public class BST <E extends Comparable<? super E>> implements Iterator<Node<E>> {
     protected Node<E> root; //root of BST
     private int nodecount; //number of nodes in BST
 
@@ -99,20 +100,17 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
             return rt;
         }
     }
-
-    public boolean hasNext() {
-        return false;
-    }
-    public E next() {
-        return null;
+    @Override
+    public Iterator<Node<E>> iterator() {
+        return new BSTIterator(this.root);
     }
 
     // Implement the BSTIterator class -in order tree transversal
-    private class BSTIterator implements Iterator<E> {
+    private class BSTIterator implements Iterator<Node<E>> {
         private Node<E> currentNode;
         private Stack<Node<E>> nodeStack;
 
-        public BSTIterator() {
+        public BSTIterator(Node<E> root) {
             if (root != null) {
                 nodeStack = new Stack<>(); //node<e>
                 goLeftFrom(root);
@@ -132,7 +130,7 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
         }
 
         @Override
-        public E next() {
+        public Node<E> next() {
             if (!nodeStack.empty()) {
                 Node<E> current = nodeStack.peek();
                 nodeStack.pop();
@@ -140,7 +138,7 @@ public class BST<E extends Comparable<? super E>> implements Iterator<E> {
                     goLeftFrom(currentNode.getRight());
                 }
             }
-            return (currentNode.getElement());
+            return currentNode;
         }
 
         public void inOrder() {

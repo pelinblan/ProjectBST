@@ -27,30 +27,30 @@ public class Parser<E extends Comparable<? super E>> {
     // Implement the operate_BST method
     // Determine the incoming command and operate on the BST
     public void operate_BST(String[] command) {
+        System.out.println(command[0]);
         switch (command[0]) {
             // add your cases here
             // call writeToFile
             case "print":
                 try {
-                    FileWriter fileWriter = new FileWriter("./result.txt");
+                    FileWriter fileWriter = new FileWriter("result.txt");
                     printInOrder((Node<E>)mybst.root, fileWriter);
+                    writeToFile("Printed BST elements to result.txt", "result.txt");
                     fileWriter.close();
-                    writeToFile("Printed BST elements to result.txt", "./result.txt");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
-
             case "insert":
                 if (command.length == 2) {
                     try {
                         int value = Integer.parseInt(command[1]); //integer
                         mybst.insert(value);
                     } catch (NumberFormatException e) {
-                        writeToFile("Invalid Command: " + command[0], "./result.txt");
+                        writeToFile("Invalid Command: " + command[0], "result.txt");
                     }
                 } else {
-                    writeToFile("Invalid Command: " + command[0], "./result.txt");
+                    writeToFile("Invalid Command: " + command[0], "result.txt");
                 }
             break;
             case "remove":
@@ -59,15 +59,15 @@ public class Parser<E extends Comparable<? super E>> {
                     int value = Integer.parseInt(command[1]);
                     mybst.remove(value);
                     if (value != 0) {
-                        writeToFile("Deleted: " + value, "./result.txt");
+                        writeToFile("Deleted: " + value, "result.txt");
                     } else {
-                        writeToFile("Value not found: " + value, "./result.txt");
+                        writeToFile("Value not found: " + value, "result.txt");
                     }
                 } catch (NumberFormatException e) {
-                    writeToFile("Invalid Command: " + command[0], "./result.txt");
+                    writeToFile("Invalid Command: " + command[0], "result.txt");
                 }
             } else {
-                writeToFile("Invalid Command: " + command[0], "./result.txt");
+                writeToFile("Invalid Command: " + command[0], "result.txt");
             }
             break;
             case "search":
@@ -75,17 +75,17 @@ public class Parser<E extends Comparable<? super E>> {
                     try {
                         int value = Integer.parseInt(command[1]);
                         if (mybst.find(value) != null) {
-                            writeToFile("Found: " + value, "./result.txt");
+                            writeToFile("Found: " + value, "result.txt");
                         } else {
-                            writeToFile("Not found: " + value, "./result.txt");
+                            writeToFile("Not found: " + value, "result.txt");
                         }
                     } catch (NumberFormatException e) {
-                        writeToFile("Invalid Command: " + command[0], "./result.txt");
+                        writeToFile("Invalid Command: " + command[0], "result.txt");
                     }
 
                 }
             default:
-                writeToFile("Invalid Command", "./result.txt");
+                writeToFile("Invalid Command", "result.txt");
                 break; // Added 'break' here for the default case
         }
     }
