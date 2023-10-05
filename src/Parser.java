@@ -59,9 +59,9 @@ public class Parser<E extends Comparable<? super E>> {
                     int value = Integer.parseInt(command[1]);
                     mybst.remove(value);
                     if (value != 0) {
-                        writeToFile("Deleted: " + value, "result.txt");
+                        writeToFile("Removed: " + value, "result.txt");
                     } else {
-                        writeToFile("Value not found: " + value, "result.txt");
+                        writeToFile("Removed failed ", "result.txt");
                     }
                 } catch (NumberFormatException e) {
                     writeToFile("Invalid Command: " + command[0], "result.txt");
@@ -77,7 +77,7 @@ public class Parser<E extends Comparable<? super E>> {
                         if (mybst.find(value) != null) {
                             writeToFile("Found: " + value, "result.txt");
                         } else {
-                            writeToFile("Not found: " + value, "result.txt");
+                            writeToFile("Search failed", "result.txt");
                         }
                     } catch (NumberFormatException e) {
                         writeToFile("Invalid Command: " + command[0], "result.txt");
